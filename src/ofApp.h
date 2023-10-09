@@ -1,6 +1,12 @@
 #pragma once
 
 #include "ofMain.h"
+struct CameraData
+{
+	glm::vec3 pos;
+	float fov;
+};
+
 
 class ofApp : public ofBaseApp{
 
@@ -20,5 +26,9 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
+
+		ofMesh mesh;
+		ofShader shader;
+		CameraData cam;
 		
 };

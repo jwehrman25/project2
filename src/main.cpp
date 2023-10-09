@@ -4,14 +4,13 @@
 //========================================================================
 int main( ){
 
-	//Use ofGLFWWindowSettings for more options like multi-monitor fullscreen
-	ofGLWindowSettings settings;
-	settings.setSize(1024, 768);
-	settings.windowMode = OF_WINDOW; //can also be OF_FULLSCREEN
+	ofGLWindowSettings glSettings;
+	glSettings.setSize(1024, 768); //was 748 vertical
+	glSettings.windowMode = OF_WINDOW;
+	glSettings.setGLVersion(4, 1);
+	ofCreateWindow(glSettings);
 
-	auto window = ofCreateWindow(settings);
-
-	ofRunApp(window, make_shared<ofApp>());
-	ofRunMainLoop();
+	printf("%s\n", glGetString(GL_VERSION));
+	ofRunApp(new ofApp());
 
 }
