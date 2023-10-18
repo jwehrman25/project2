@@ -28,21 +28,24 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update() {
-	if (forward) {
+	if (forward) 
+	{
 		cam.pos = cam.pos - glm::vec3(0, 0, 0.05);
 	}
 	if (backward)
 	{
 		cam.pos = cam.pos + glm::vec3(0, 0, 0.05);
 	}
-	if (up) {
+	if (up) 
+	{
 		cam.pos = cam.pos + glm::vec3(0, 0.05, 0);
 	}
 	if (down)
 	{
 		cam.pos = cam.pos - glm::vec3(0, 0.05, 0);
 	}
-	if (left) {
+	if (left) 
+	{
 		cam.pos = cam.pos - glm::vec3(0.05, 0, 0);
 	}
 	if (right)
@@ -77,10 +80,10 @@ void ofApp::keyPressed(int key){
 	if (key == OF_KEY_DOWN) {
 		down = true;
 	}
-	if (key == OF_KEY_LEFT) {
+	if (key == 'a') {
 		left = true;
 	}
-	if (key == OF_KEY_RIGHT) {
+	if (key == 'd') {
 		right = true;
 	}
 	if (key == 'w') {
@@ -100,10 +103,10 @@ void ofApp::keyReleased(int key){
 	if (key == OF_KEY_DOWN) {
 		down = false;
 	}
-	if (key == OF_KEY_LEFT) {
+	if (key == 'a') {
 		left = false;
 	}
-	if (key == OF_KEY_RIGHT) {
+	if (key == 'd') {
 		right = false;
 	}
 	if (key == 'w') {
