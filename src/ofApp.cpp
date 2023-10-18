@@ -22,22 +22,43 @@ void ofApp::setup(){
 
 	mesh.load("JWPoly.ply");
 	shader.load("mesh.vert", "texture.frag");
+	cam.pos = glm::vec3(0, 0, 0);
+	cam.fov = glm::radians(90.0f);
 }
 
 //--------------------------------------------------------------
-void ofApp::update(){
-
+void ofApp::update() {
+	if (forward) {
+		cam.pos = cam.pos - glm::vec3(0, 0, 0.05);
+	}
+	if (backward)
+	{
+		cam.pos = cam.pos + glm::vec3(0, 0, 0.05);
+	}
+	if (up) {
+		cam.pos = cam.pos + glm::vec3(0, 0.05, 0);
+	}
+	if (down)
+	{
+		cam.pos = cam.pos - glm::vec3(0, 0.05, 0);
+	}
+	if (left) {
+		cam.pos = cam.pos - glm::vec3(0.05, 0, 0);
+	}
+	if (right)
+	{
+		cam.pos = cam.pos + glm::vec3(0.05, 0, 0);
+	}
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
 	using namespace glm;
-	cam.pos = vec3(0, 0, 1);
-	cam.fov = radians(90.0f);
 	float aspect = 1024.0f / 768.0f;
 
 	mat4 model = rotate(1.0f, vec3(1, 1, 1)) * scale(vec3(1, 1, 1));
 	mat4 view = inverse(translate(cam.pos));
+
 	mat4 proj = perspective(cam.fov, aspect, 0.01f, 10.0f);
 
 	mat4 mvp = proj * view * model;
@@ -50,11 +71,47 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
+	if (key == OF_KEY_UP) {
+		up = true;
+	}
+	if (key == OF_KEY_DOWN) {
+		down = true;
+	}
+	if (key == OF_KEY_LEFT) {
+		left = true;
+	}
+	if (key == OF_KEY_RIGHT) {
+		right = true;
+	}
+	if (key == 'w') {
+		forward = true;
+	}
+	if (key == 's') {
+		backward = true;
+	}
 
 }
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key){
+	if (key == OF_KEY_UP) {
+		up = false;
+	}
+	if (key == OF_KEY_DOWN) {
+		down = false;
+	}
+	if (key == OF_KEY_LEFT) {
+		left = false;
+	}
+	if (key == OF_KEY_RIGHT) {
+		right = false;
+	}
+	if (key == 'w') {
+		forward = false;
+	}
+	if (key == 's') {
+		backward = false;
+	}
 
 }
 

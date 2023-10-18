@@ -30,5 +30,7 @@ class ofApp : public ofBaseApp{
 		ofMesh mesh;
 		ofShader shader;
 		CameraData cam;
+
+		bool up, down, left, right, forward, backward;
 		
 };
