@@ -21,6 +21,7 @@ void ofApp::setup(){
 	ofEnableDepthTest();
 
 	mesh.load("JWPoly.ply");
+	mesh2.load("MRPoly.ply");
 	shader.load("mesh.vert", "texture.frag");
 	cam.pos = glm::vec3(0, 0, 0);
 	cam.fov = glm::radians(90.0f);
@@ -69,6 +70,7 @@ void ofApp::draw(){
 	shader.begin();
 	shader.setUniformMatrix4f("mvp", mvp);
 	mesh.draw();
+	mesh2.draw();
 	shader.end();
 }
 

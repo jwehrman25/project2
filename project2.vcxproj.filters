@@ -25,5 +25,6 @@
     <None Include="bin\data\JWPoly.ply" />
     <None Include="bin\data\mesh.vert" />
     <None Include="bin\data\texture.frag" />
+    <None Include="bin\data\MRPoly.ply" />
   </ItemGroup>
 </Project>

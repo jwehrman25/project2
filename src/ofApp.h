@@ -28,6 +28,7 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
 
 		ofMesh mesh;
+		ofMesh mesh2;
 		ofShader shader;
 		CameraData cam;
 
