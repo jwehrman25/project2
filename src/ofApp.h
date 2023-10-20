@@ -29,6 +29,10 @@ class ofApp : public ofBaseApp{
 
 		ofMesh mesh;
 		ofMesh mesh2;
+
+		ofVbo vbo;
+		ofVbo vbo2;
+
 		ofShader shader;
 		CameraData cam;
 
