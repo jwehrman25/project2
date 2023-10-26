@@ -19,6 +19,7 @@ glm::mat4 buildViewMatrix(CameraData cam)
 void ofApp::setup(){
 	ofDisableArbTex();
 	ofEnableDepthTest();
+	glEnable(GL_CULL_FACE);
 
 	mesh.load("JWPoly.ply");
 	mesh2.load("MRPoly.ply");
@@ -71,11 +72,13 @@ void ofApp::draw(){
 
 	mat4 mvp = proj * view * model;
 	float count = 1.0f;
+	mat4 mv = view * model;
 
 	shader.begin();
 	shader.setUniformMatrix4f("mvp", mvp);
+	shader.setUniformMatrix4f("mv", mv);
 	shader.setUniform1f("count", count);
-	for (int i = 0; i < 10000; i++) {
+	for (int i = 0; i < 1; i++) {
 
 		/*
 		 * Drawing 10,000 of the meshes would cause the camera movement to lag,
