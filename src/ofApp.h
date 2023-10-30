@@ -28,6 +28,11 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
 
 		ofMesh mesh;
+		ofMesh mesh2;
+
+		ofVbo vbo;
+		ofVbo vbo2;
+
 		ofShader shader;
 		CameraData cam;
 

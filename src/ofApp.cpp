@@ -25,9 +25,15 @@ void ofApp::setup(){
 	ofEnableDepthTest();
 	xRotation = 0;
 	yRotation = 0;
+	glEnable(GL_CULL_FACE);
 
 	mesh.load("JWPoly.ply");
+	mesh2.load("MRPoly.ply");
 	shader.load("mesh.vert", "texture.frag");
+
+	vbo.setMesh(mesh, GL_STATIC_DRAW);
+	vbo2.setMesh(mesh2, GL_STATIC_DRAW);
+
 	cam.pos = glm::vec3(0, 0, 0);
 	cam.fov = glm::radians(90.0f);
 }
@@ -75,10 +81,26 @@ void ofApp::draw(){
 	mat4 proj = perspective(cam.fov, aspect, 0.01f, 10.0f);
 
 	mat4 mvp = proj * view * model;
+	float count = 1.0f;
+	mat4 mv = view * model;
 
 	shader.begin();
 	shader.setUniformMatrix4f("mvp", mvp);
-	mesh.draw();
+	shader.setUniformMatrix4f("mv", mv);
+	shader.setUniform1f("count", count);
+	for (int i = 0; i < 1; i++) {
+
+		/*
+		 * Drawing 10,000 of the meshes would cause the camera movement to lag,
+		 * making the switch to drawing VBOs does not noticable cause the camera to lag whatsoever.
+		 */
+		//mesh.draw();
+		//mesh2.draw();
+		vbo.drawElements(GL_TRIANGLES, vbo.getNumIndices());
+		vbo2.drawElements(GL_TRIANGLES, vbo2.getNumIndices());
+		count++;
+		shader.setUniform1f("count", count);
+	}
 	shader.end();
 }
 

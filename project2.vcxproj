@@ -124,6 +124,7 @@
   <ItemGroup>
     <None Include="bin\data\JWPoly.ply" />
     <None Include="bin\data\mesh.vert" />
+    <None Include="bin\data\MRPoly.ply" />
     <None Include="bin\data\texture.frag" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
