@@ -1,5 +1,9 @@
 #include "ofApp.h"
 
+bool lef, righ;
+float xRotation, yRotation; 
+int xMouse, yMouse;
+
 glm::mat4 buildMatrix(glm::vec3 trans, float rot, glm::vec3 scale)
 {
 	using glm::mat4;
@@ -19,6 +23,8 @@ glm::mat4 buildViewMatrix(CameraData cam)
 void ofApp::setup(){
 	ofDisableArbTex();
 	ofEnableDepthTest();
+	xRotation = 0;
+	yRotation = 0;
 
 	mesh.load("JWPoly.ply");
 	shader.load("mesh.vert", "texture.frag");
@@ -59,8 +65,12 @@ void ofApp::draw(){
 	using namespace glm;
 	float aspect = 1024.0f / 768.0f;
 
-	mat4 model = rotate(1.0f, vec3(1, 1, 1)) * scale(vec3(1, 1, 1));
-	mat4 view = inverse(translate(cam.pos));
+	mat4 model = rotate(0.0f, vec3(1, 1, 1)) * scale(vec3(1, 1, 1));
+
+	mat4 pitch = rotate(radians(xRotation), vec3(0, 1, 0));
+	mat4 head = rotate(radians(yRotation), vec3(1, 0, 0));
+
+	mat4 view = inverse(translate(cam.pos)*pitch*head);
 
 	mat4 proj = perspective(cam.fov, aspect, 0.01f, 10.0f);
 
@@ -92,6 +102,14 @@ void ofApp::keyPressed(int key){
 	if (key == 's') {
 		backward = true;
 	}
+	if (key == OF_KEY_LEFT)
+	{
+		lef = true;
+	}
+	if (key == OF_KEY_RIGHT)
+	{
+		righ = true;
+	}
 
 }
 
@@ -115,6 +133,14 @@ void ofApp::keyReleased(int key){
 	if (key == 's') {
 		backward = false;
 	}
+	if (key == OF_KEY_LEFT)
+	{
+		lef = false;
+	}
+	if (key == OF_KEY_RIGHT)
+	{
+		righ = false;
+	}
 
 }
 
@@ -125,12 +151,14 @@ void ofApp::mouseMoved(int x, int y ){
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
-
+	xRotation -= (xMouse - x) / 100.0f;
+	yRotation -= (yMouse - y) / 100.0f;
 }
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-
+	xMouse = x;
+	yMouse = y;
 }
 
 //--------------------------------------------------------------
