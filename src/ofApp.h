@@ -36,6 +36,17 @@ class ofApp : public ofBaseApp{
 		ofShader shader;
 		CameraData cam;
 
-		bool up, down, left, right, forward, backward;
-		
+		glm::vec3 velocity;
+		glm::vec3 position{ 0, 0, 1 };
+		float cameraHead{ 0 };
+		float cameraPitch{ 0 };
+		bool needsReload{ true };
+		int prevX{ 0 }, prevY{ 0 };
+
+		// How many radians of rotation correspond to a single pixel of movement of the cursor.
+		float mouseSensitivity{ 0.02f };
+		// Load the shaders for this app
+		void reloadShaders();
+		// update camera rotation based on mouse movement
+		void updateCameraRotation(float dx, float dy);
 };

@@ -29,7 +29,8 @@ void ofApp::setup(){
 
 	mesh.load("JWPoly.ply");
 	mesh2.load("MRPoly.ply");
-	shader.load("mesh.vert", "texture.frag");
+
+	reloadShaders();
 
 	vbo.setMesh(mesh, GL_STATIC_DRAW);
 	vbo2.setMesh(mesh2, GL_STATIC_DRAW);
@@ -38,45 +39,45 @@ void ofApp::setup(){
 	cam.fov = glm::radians(90.0f);
 }
 
+void ofApp::reloadShaders()
+{
+	shader.load("mesh.vert", "texture.frag");
+	needsReload = false;
+}
+
+void ofApp::updateCameraRotation(float dx, float dy)
+{
+	using namespace glm;
+	cameraHead += dx;
+    cameraPitch += dy;
+	
+}
+
 //--------------------------------------------------------------
 void ofApp::update() {
-	if (forward) 
-	{
-		cam.pos = cam.pos - glm::vec3(0, 0, 0.05);
+	if (needsReload) {
+		reloadShaders();
 	}
-	if (backward)
-	{
-		cam.pos = cam.pos + glm::vec3(0, 0, 0.05);
-	}
-	if (up) 
-	{
-		cam.pos = cam.pos + glm::vec3(0, 0.05, 0);
-	}
-	if (down)
-	{
-		cam.pos = cam.pos - glm::vec3(0, 0.05, 0);
-	}
-	if (left) 
-	{
-		cam.pos = cam.pos - glm::vec3(0.05, 0, 0);
-	}
-	if (right)
-	{
-		cam.pos = cam.pos + glm::vec3(0.05, 0, 0);
-	}
+	using namespace glm;
+
+	vec3 velocityWorldSpace{ (mat3(rotate(-cameraHead, vec3(0,1,0))) * mat3(rotate(-cameraPitch, vec3(1,0,0)))) * velocity };
+
+	float dt{ static_cast<float>(ofGetLastFrameTime()) };
+	
+	position += velocityWorldSpace * dt;
+
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
 	using namespace glm;
-	float aspect = 1024.0f / 768.0f;
+	float width{ static_cast<float>(ofGetViewportWidth()) };
+	float height{ static_cast<float>(ofGetViewportHeight()) };
+	float aspect{ width / height };
 
 	mat4 model = rotate(0.0f, vec3(1, 1, 1)) * scale(vec3(1, 1, 1));
 
-	mat4 pitch = rotate(radians(xRotation), vec3(0, 1, 0));
-	mat4 head = rotate(radians(yRotation), vec3(1, 0, 0));
-
-	mat4 view = inverse(translate(cam.pos)*pitch*head);
+	mat4 view = (rotate(cameraHead, vec3(0, 1, 0)) * rotate(cameraPitch, vec3(1, 0, 0))) * translate(-position);
 
 	mat4 proj = perspective(cam.fov, aspect, 0.01f, 10.0f);
 
@@ -107,80 +108,66 @@ void ofApp::draw(){
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
 	if (key == OF_KEY_UP) {
-		up = true;
+		velocity.y = 1;
 	}
 	if (key == OF_KEY_DOWN) {
-		down = true;
+		velocity.y = -1;
 	}
-	if (key == 'a') {
-		left = true;
-	}
-	if (key == 'd') {
-		right = true;
-	}
-	if (key == 'w') {
-		forward = true;
-	}
-	if (key == 's') {
-		backward = true;
-	}
-	if (key == OF_KEY_LEFT)
+	if (key == 'w')
 	{
-		lef = true;
+		velocity.z = -1;
 	}
-	if (key == OF_KEY_RIGHT)
+	else if (key == 's')
 	{
-		righ = true;
+		velocity.z = 1;
+	}
+	else if (key == 'a')
+	{
+		velocity.x = -1;
+	}
+	else if (key == 'd')
+	{
+		velocity.x = 1;
 	}
 
 }
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key){
-	if (key == OF_KEY_UP) {
-		up = false;
-	}
-	if (key == OF_KEY_DOWN) {
-		down = false;
-	}
-	if (key == 'a') {
-		left = false;
-	}
-	if (key == 'd') {
-		right = false;
-	}
-	if (key == 'w') {
-		forward = false;
-	}
-	if (key == 's') {
-		backward = false;
-	}
-	if (key == OF_KEY_LEFT)
+	if (key == 'w' || key == 's')
 	{
-		lef = false;
+		velocity.z = 0;
 	}
-	if (key == OF_KEY_RIGHT)
+	else if (key == 'a' || key == 'd')
 	{
-		righ = false;
+		velocity.x = 0;
 	}
-
+	else if (key == OF_KEY_UP || key == OF_KEY_DOWN) {
+		velocity.y = 0;
+	}
 }
 
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y ){
+	if (prevX != 0 && prevY != 0)
+	{
+		// Update camera rotation based on mouse movement
+		updateCameraRotation(mouseSensitivity * (x - prevX), mouseSensitivity * (y - prevY));
+	}
 
+	// Remember where the mouse was this frame.
+	prevX = x;
+	prevY = y;
 }
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
-	xRotation -= (xMouse - x) / 100.0f;
-	yRotation -= (yMouse - y) / 100.0f;
+	
 }
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-	xMouse = x;
-	yMouse = y;
+	
 }
 
 //--------------------------------------------------------------
