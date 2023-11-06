@@ -44,13 +44,7 @@ void ofApp::update() {
 	}
 	using namespace glm;
 
-	vec3 velocityWorldSpace{  mat3( rotate(-cameraPitch, vec3(1,0,0)) * rotate(-cameraHead, vec3(0,1,0))) * velocity };
-	if (cameraPitch < 0 && velocityWorldSpace.y < 0) {
-		velocityWorldSpace.y = (-1 * velocityWorldSpace.y);
-	}
-	if (cameraPitch > 0 && velocityWorldSpace.y > 0) {
-		velocityWorldSpace.y = (-1 * velocityWorldSpace.y);
-	}
+	vec3 velocityWorldSpace{ mat3(rotate(-cameraHead, vec3(0,1,0)) * rotate(-cameraPitch, vec3(1,0,0))) * velocity };
 
 	float dt{ static_cast<float>(ofGetLastFrameTime()) };
 	
