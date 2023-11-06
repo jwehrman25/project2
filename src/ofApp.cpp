@@ -100,7 +100,7 @@ void ofApp::draw(){
 	shader.setUniformMatrix4f("mvp", mvp);
 	shader.setUniformMatrix4f("mv", mv);
 	shader.setUniform1f("count", count);
-	for (int i = 0; i < 1; i++) {
+	for (int i = 0; i < 100; i++) {
 
 		/*
 		 * Drawing 10,000 of the meshes would cause the camera movement to lag,
