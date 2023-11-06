@@ -50,7 +50,12 @@ void ofApp::updateCameraRotation(float dx, float dy)
 	using namespace glm;
 	cameraHead += dx;
     cameraPitch += dy;
-	
+	if (cameraPitch > radians(90.0f)) {
+		cameraPitch = radians(89.9f);
+	}
+	if (cameraPitch < radians(-90.0f)) {
+		cameraPitch = radians(-89.9f);
+	}
 }
 
 //--------------------------------------------------------------
@@ -60,7 +65,7 @@ void ofApp::update() {
 	}
 	using namespace glm;
 
-	vec3 velocityWorldSpace{ (mat3(rotate(-cameraHead, vec3(0,1,0))) * mat3(rotate(-cameraPitch, vec3(1,0,0)))) * velocity };
+	vec3 velocityWorldSpace{ ( mat3(rotate(-cameraPitch, vec3(1,0,0))) * mat3(rotate(-cameraHead, vec3(0,1,0)))) * velocity };
 
 	float dt{ static_cast<float>(ofGetLastFrameTime()) };
 	
@@ -77,7 +82,7 @@ void ofApp::draw(){
 
 	mat4 model = rotate(0.0f, vec3(1, 1, 1)) * scale(vec3(1, 1, 1));
 
-	mat4 view = (rotate(cameraHead, vec3(0, 1, 0)) * rotate(cameraPitch, vec3(1, 0, 0))) * translate(-position);
+	mat4 view = (rotate(cameraPitch, vec3(1, 0, 0)) * rotate(cameraHead, vec3(0, 1, 0))) * translate(-position);
 
 	mat4 proj = perspective(cam.fov, aspect, 0.01f, 10.0f);
 
