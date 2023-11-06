@@ -13,9 +13,8 @@ out vec4 cs_position;
 
 void main()
 {
-	//gl_Position = mvp * vec4(pos + vec3(count * 2, 1.0, 1.0), 1.0);
-	//fragUV = uv;
-	gl_Position = mvp * vec4(pos, 1.0);
+	gl_Position = mvp * vec4(pos + vec3(count * 2, 1.0, 1.0), 1.0);
+	//gl_Position = mvp * vec4(pos, 1.0);
 	fragUV = uv;
 
 	cs_position = mv * vec4(pos, 1.0);
