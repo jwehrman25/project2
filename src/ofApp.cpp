@@ -1,30 +1,9 @@
 #include "ofApp.h"
 
-bool lef, righ;
-float xRotation, yRotation; 
-int xMouse, yMouse;
-
-glm::mat4 buildMatrix(glm::vec3 trans, float rot, glm::vec3 scale)
-{
-	using glm::mat4;
-	mat4 translation = glm::translate(trans);
-	mat4 rotation = glm::rotate(rot, glm::vec3(0.0, 0.0, 1.0));
-	mat4 scaler = glm::scale(scale);
-	return translation * rotation * scaler;
-}
-
-glm::mat4 buildViewMatrix(CameraData cam) 
-{
-	using namespace glm;
-	return inverse(buildMatrix(cam.pos, cam.fov, vec3(1, 1, 1)));
-}
-
 //--------------------------------------------------------------
 void ofApp::setup(){
 	ofDisableArbTex();
 	ofEnableDepthTest();
-	xRotation = 0;
-	yRotation = 0;
 	glEnable(GL_CULL_FACE);
 
 	mesh.load("JWPoly.ply");

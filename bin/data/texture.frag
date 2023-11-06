@@ -9,6 +9,6 @@ out vec4 outCol;
 
 void main()
 {
-    float distToCamera = -cs_position.z;
-	outCol = vec4(fragUV, 0.0, 1.0 - smoothstep(0.0, 5.0, distToCamera));
+    float distToCamera = length(cs_position.xyz);
+	outCol = vec4(fragUV, 0.0, 1.0 - smoothstep(0.0, 10.0, distToCamera));
 }
