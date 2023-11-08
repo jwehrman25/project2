@@ -44,7 +44,7 @@ class ofApp : public ofBaseApp{
 		int prevX{ 0 }, prevY{ 0 };
 
 		// How many radians of rotation correspond to a single pixel of movement of the cursor.
-		float mouseSensitivity{ 0.02f };
+		float mouseSensitivity{ 0.002f };
 		// Load the shaders for this app
 		void reloadShaders();
 		// update camera rotation based on mouse movement

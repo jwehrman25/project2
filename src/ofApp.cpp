@@ -69,10 +69,13 @@ void ofApp::draw(){
 	float count = 1.0f;
 	mat4 mv = view * model;
 
+	mat4 normal = mat3(transpose(inverse(mv)));
+
 	shader.begin();
 	shader.setUniformMatrix4f("mvp", mvp);
 	shader.setUniformMatrix4f("mv", mv);
 	shader.setUniform1f("count", count);
+	shader.setUniformMatrix4f("normal", normal);
 	for (int i = 0; i < 10000; i++) {
 
 		/*

@@ -15,7 +15,7 @@ void main()
 {
     vec3 position = pos + vec3(count * 2, 1.0, 1.0);
     gl_Position = mvp * vec4(position, 1.0);
-    fragNormal = mat3(mv) * normal;
+    fragNormal = normal;
 
     cs_position = mv * vec4(position, 1.0);
 }
