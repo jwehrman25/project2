@@ -1,8 +1,6 @@
 #version 410
 
-uniform sampler2D parrotTex;
-
-in vec2 fragUV;
+in vec3 fragNormal;
 in vec4 cs_position;
 
 out vec4 outCol;
@@ -10,5 +8,6 @@ out vec4 outCol;
 void main()
 {
     float distToCamera = length(cs_position.xyz);
-	outCol = vec4(fragUV, 0.0, 1.0 - smoothstep(0.0, 10.0, distToCamera));
+    outCol = vec4(fragNormal, 1.0);
+    outCol.a = 1.0 - smoothstep(2.0, 8.0, distToCamera);
 }
